@@ -21,6 +21,7 @@ public class DetailFacture implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//mayssa
 	private Long idDetailFacture;
 	private Integer qteCommandee;
 	private float prixTotalDetail;
