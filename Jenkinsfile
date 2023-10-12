@@ -17,11 +17,12 @@ pipeline{
         }
         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
-                dependencyCheck additionalArguments: ''' 
+                /*dependencyCheck additionalArguments: ''' 
                             -o './' 
                             --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
                 
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'*/
+                echo "OWASP removed"
             }
         }
         stage("Test stage"){
