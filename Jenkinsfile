@@ -33,13 +33,13 @@ pipeline{
               }
             }
         }
-        /*stage("SonarTest integration"){
+        stage("SonarTest integration"){
             steps{
                 withSonarQubeEnv(installationName: 'SonarQubeServer') {
                     sh "mvn sonar:sonar"
                 }
             }
-        }*/
+        }
         stage("Incrementing version"){
           steps{
             script {
@@ -60,12 +60,12 @@ pipeline{
               }
             }
         }
-        /*stage('Push to Nexus') {
+        stage('Push to Nexus') {
             steps {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '192.168.0.5:8081',
+                    nexusUrl: '192.168.0.2:8081',
                     groupId: 'com.esprit.examen',
                     version: "${APP_VERSION}",
                     repository: 'learning',
@@ -81,7 +81,7 @@ pipeline{
                   )
                 
             }
-          }*/
+          }
           stage("login & build docker"){
             steps {
               script{
@@ -99,25 +99,31 @@ pipeline{
               }
             }
           }
-          /*stage("terraform provisioning"){
+          stage("terraform login"){
             environment{
-              AWS_ACCESS_KEY_ID = credentials('aws_access_key')
-              AWS_SECRET_ACCESS_KEY = credentials('aws_secret_key')
+              TF_TOKEN_app_terraform_io= credentials('terraform_token')
+            }
+            steps{
+              script{
+                sh 'terraform login'
+              }
+            }
+          }
+          stage("terraform provisioning"){
+            environment{
+              TF_VAR_namespace = "monitoring"
+              TF_VAR_imageName = "${IMAGE_NAME}:${APP_VERSION}"
             }
             steps{
               script{
                 dir('terraform'){
                   sh 'terraform init'
                   sh 'terraform apply --auto-approve'
-                  env.EC2_PUBLIC_IP = sh(
-                    script: "terraform output ec2_ip",
-                    returnStdout: true
-                  ).trim()
                 }
               }
             }
-          }*/
-          stage("commit version increment - state file"){
+          }
+          stage("commit version increment"){
             environment{
               GITHUB_ACCESS_KEY = credentials('github_access_key')
             }
@@ -126,7 +132,7 @@ pipeline{
                 withCredentials([usernamePassword(credentialsId:'github_credentials',passwordVariable:'GIT_PASS',usernameVariable:'GIT_USER')]){
                   sh "git remote set-url origin https://${GITHUB_ACCESS_KEY}@github.com/${GIT_USER}/devops-project.git"
                   sh "git add ."
-                  sh 'git commit -m "jenkins: version bump - state file commit"'
+                  sh 'git commit -m "jenkins: version bump - commit"'
                   sh 'git push origin HEAD:Di'
                 }
               }
@@ -139,30 +145,6 @@ pipeline{
               }
             }
           }
-          /*stage("deploy on ec2 server"){
-            environment{
-              DOCKER_CREDS = credentials('docker_credentials')
-              FULL_IMAGE_NAME = "${IMAGE_NAME}:${APP_VERSION}"
-            }
-            steps {
-              script{
-                echo "waiting for the ec2 to initialize"
-                sleep(time: 180, unit: "SECONDS")
-                
-                def shellCmd = "bash ./server-cmds.sh ${FULL_IMAGE_NAME} ${DOCKER_CREDS_USR} ${DOCKER_CREDS_PSW}"
-                def ec2Instance = "ubuntu@${EC2_PUBLIC_IP}"
-                def homeDir = "/home/ubuntu"
-
-                sshagent(['ssh_key_to_ec2']) {
-                  sh "scp -o StrictHostKeyChecking=no -o ServerAliveInterval=300 server-cmds.sh ${ec2Instance}:${homeDir}"
-                  sh "scp -o StrictHostKeyChecking=no -o ServerAliveInterval=300 docker-compose.yml ${ec2Instance}:${homeDir}"
-                  sh "scp -o StrictHostKeyChecking=no -o ServerAliveInterval=300 prometheus.yml ${ec2Instance}:${homeDir}"
-                  sh "ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=300 ${ec2Instance} ${shellCmd}"
-                }
-              }
-            }
-          }*/
-
     }
     
 }
