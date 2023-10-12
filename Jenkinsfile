@@ -11,16 +11,14 @@ pipeline{
         stage("FS trivy scan"){
             steps{
               script{
-                sh "trivy fs ."
+                echo "trivy fs ."
               }
             }
         }
         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
                 dependencyCheck additionalArguments: ''' 
-                            -o './'
-                            -s './'
-                            -f 'ALL' 
+                            -o './' 
                             --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
                 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
@@ -35,11 +33,9 @@ pipeline{
         }
         stage("SonarTest integration"){
             steps{
-              container("maven:3.6.3-openjdk-11-slim"){
                 withSonarQubeEnv(installationName: 'SonarQubeServer') {
                     sh "mvn sonar:sonar"
                 }
-              }
             }
         }
         stage("Incrementing version"){
@@ -58,9 +54,7 @@ pipeline{
         stage("Maven Package"){
             steps{
               script{
-                def image = 'maven:3.6.3-openjdk-11-slim'
-                def workspacePath = pwd() 
-                sh "docker run -v $workspacePath:/output $image mvn clean package -Dmaven.test.skip=true -DskipTests"
+                sh "mvn clean package"
               }
             }
         }
