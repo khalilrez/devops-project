@@ -35,7 +35,7 @@ pipeline{
         stage("SonarTest integration"){
             steps{
                 withSonarQubeEnv(installationName: 'SonarQubeServer') {
-                    sh "mvn sonar:sonar"
+                    sh "mvn compile sonar:sonar"
                 }
             }
         }
