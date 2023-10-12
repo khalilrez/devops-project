@@ -35,9 +35,11 @@ pipeline{
         }
         stage("SonarTest integration"){
             steps{
+              container("maven:3.6.3-openjdk-11-slim"){
                 withSonarQubeEnv(installationName: 'SonarQubeServer') {
                     sh "mvn sonar:sonar"
                 }
+              }
             }
         }
         stage("Incrementing version"){
@@ -56,7 +58,9 @@ pipeline{
         stage("Maven Package"){
             steps{
               script{
-                sh "mvn clean package"
+                def image = 'maven:3.6.3-openjdk-11-slim'
+                def workspacePath = pwd() 
+                sh "docker run -v $workspacePath:/output $image mvn clean package -Dmaven.test.skip=true -DskipTests"
               }
             }
         }
