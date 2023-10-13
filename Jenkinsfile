@@ -11,18 +11,18 @@ pipeline{
         stage("FS trivy scan"){
             steps{
               script{
-                echo "trivy fs ."
+                sh "trivy fs ."
               }
             }
         }
         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
-                /*dependencyCheck additionalArguments: ''' 
+                dependencyCheck additionalArguments: ''' 
                             -o './' 
                             --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
                 
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'*/
-                echo "OWASP removed"
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                echo "OWASP done"
             }
         }
         stage("Test stage"){
