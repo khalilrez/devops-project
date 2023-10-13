@@ -104,12 +104,13 @@ pipeline{
             }
             steps{
               script{
-                sh 'terraform login'
+                echo 'terraform login'
               }
             }
           }
           stage("terraform provisioning"){
             environment{
+              TF_TOKEN_app_terraform_io= credentials('terraform_token')
               TF_VAR_namespace = "monitoring"
               TF_VAR_imageName = "${IMAGE_NAME}:${APP_VERSION}"
             }
