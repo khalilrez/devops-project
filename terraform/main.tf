@@ -34,6 +34,7 @@ resource "kubernetes_namespace" "prod" {
 resource "kubernetes_service" "spring_boot_service" {
   metadata {
     name = "spring-boot-service"
+    namespace = kubernetes_namespace.prod.metadata.0.name
   }
   spec {
     selector = {
@@ -52,6 +53,7 @@ resource "kubernetes_service" "spring_boot_service" {
 resource "kubernetes_service" "angular_service" {
   metadata {
     name = "angular-service"
+    namespace = kubernetes_namespace.prod.metadata.0.name
   }
   spec {
     selector = {
@@ -70,6 +72,7 @@ resource "kubernetes_service" "angular_service" {
 resource "kubernetes_deployment" "app_deployment" {
   metadata {
     name = "app-deployment"
+    namespace = kubernetes_namespace.prod.metadata.0.name
   }
   spec {
     selector {
@@ -152,11 +155,12 @@ resource "kubernetes_deployment" "app_deployment" {
 resource "kubernetes_secret" "mysql_secret" {
   metadata {
     name = "mysql-secret"
+    namespace = kubernetes_namespace.prod.metadata.0.name
   }
   type = "Opaque"
   data = {
-    username = "root"
-    password = "password"
+    username = var.sqlUsername
+    password = var.sqlPassword
   }
 }
 

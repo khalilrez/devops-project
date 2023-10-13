@@ -113,12 +113,16 @@ pipeline{
               TF_TOKEN_app_terraform_io= credentials('terraform_token')
               TF_VAR_namespace = "prod"
               TF_VAR_imageName = "${IMAGE_NAME}:${APP_VERSION}"
+              TF_VAR_sqlUsername=""
+              TF_VAR_sqlPassword=""
             }
             steps{
               script{
                 dir('terraform'){
-                  sh 'terraform init'
-                  sh 'terraform apply --auto-approve'
+                  withCredentials([usernamePassword(credentialsId:'mysql_credentials', passwordVariable:'TF_VAR_sqlPassword', usernameVariable:'TF_VAR_sqlUsername')]){
+                    sh 'terraform init'
+                    sh 'terraform apply --auto-approve'
+                  }
                 }
               }
             }
