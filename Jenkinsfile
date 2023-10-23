@@ -19,13 +19,12 @@ pipeline{
             steps {
                 dependencyCheck additionalArguments: ''' 
                             -o './' 
-                            --cveUrlModified "/var/lib/jenkins/dependency-check/data/nvdcache/"
                             --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
                 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
                 echo "OWASP done"
             }
-        }/*
+        }
         stage("Test stage"){
             steps{
               script{
@@ -149,6 +148,6 @@ pipeline{
                 sh "docker image rm ${IMAGE_NAME}:${APP_VERSION}"
               }
             }
-          }*/
+          }
     }
 }
