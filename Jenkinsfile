@@ -19,7 +19,7 @@ pipeline{
             steps {
                 dependencyCheck additionalArguments: ''' 
                             -o './' 
-                            --cveModifiedUrl "/var/lib/jenkins/dependency-check/data/nvdcache/"
+                            --cveUrlModified "/var/lib/jenkins/dependency-check/data/nvdcache/"
                             --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
                 
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
