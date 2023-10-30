@@ -186,7 +186,7 @@ resource "kubernetes_deployment" "angular_app" {
       spec {
         container {
           name  = "angular-app"
-          image = "gatrimohamedali/front-devops:v1.0.2"
+          image = "gatrimohamedali/front-devops:v1.0.3"
           env {
             name  = "API_URL"
             value = "http://spring-boot-service:8089"
