@@ -187,10 +187,10 @@ resource "kubernetes_deployment" "angular_app" {
       spec {
         container {
           name  = "angular-app"
-          image = "gatrimohamedali/front-devops:v1.0.1"
+          image = "gatrimohamedali/front-devops:v1.0.2"
           env {
             name  = "API_URL"
-            value = "http://spring-boot-service:8083"
+            value = "http://spring-boot-service:8089"
           }
           port {
             container_port = 80
