@@ -173,7 +173,6 @@ resource "kubernetes_deployment" "angular_app" {
   spec {
     selector {
       match_labels = {
-        app       = "app"
         component = "angular"
       }
     }
