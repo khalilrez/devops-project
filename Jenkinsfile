@@ -80,17 +80,17 @@ pipeline{
                   )
                 
             }
-          }
+          }*/
           stage("login & build docker"){
             steps {
               script{
                 withCredentials([usernamePassword(credentialsId:'docker_credentials', passwordVariable:'DOCKER_PASS', usernameVariable:'DOCKER_USER')]){
                   sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                  sh "docker build -t ${IMAGE_NAME}:${APP_VERSION} ."
+                  //sh "docker build -t ${IMAGE_NAME}:${APP_VERSION} ."
                 }
               }
             }
-          }
+          }/*
           stage("tag and push docekr image"){
             steps {
               script{
