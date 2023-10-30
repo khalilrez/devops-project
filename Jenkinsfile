@@ -112,7 +112,7 @@ pipeline{
             environment{
               TF_TOKEN_app_terraform_io= credentials('terraform_token')
               TF_VAR_namespace = "prod"
-              TF_VAR_imageName = "${IMAGE_NAME}:${APP_VERSION}"
+              TF_VAR_imageName = "${IMAGE_NAME}:1.6"
               TF_VAR_sqlUsername=""
               TF_VAR_sqlPassword=""
             }
