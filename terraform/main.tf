@@ -164,105 +164,11 @@ resource "kubernetes_secret" "mysql_secret" {
   }
 }
 
-/*
-resource "kubernetes_deployment" "example" {
-  metadata {
-    name = "terraform-example"
-    labels = {
-      test = "MyExampleApp"
-    }
-  }
-
-  spec {
-    replicas = 3
-
-    selector {
-      match_labels = {
-        test = "MyExampleApp"
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          test = "MyExampleApp"
-        }
-      }
-
-      spec {
-        container {
-          image = "nginx:1.21.6"
-          name  = "example"
-
-          resources {
-            limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
-            }
-            requests = {
-              cpu    = "250m"
-              memory = "50Mi"
-            }
-          }
-
-          liveness_probe {
-            http_get {
-              path = "/"
-              port = 80
-
-              http_header {
-                name  = "X-Custom-Header"
-                value = "Awesome"
-              }
-            }
-
-            initial_delay_seconds = 3
-            period_seconds        = 3
-          }
-        }
-      }
-    }
-  }
-}
-
-resource "kubernetes_secret" "example" {
-  metadata {
-    name = "basic-auth"
-  }
-
-  data = {
-    username = "admin"
-    password = "P4ssw0rd"
-  }
-
-  type = "kubernetes.io/basic-auth"
-}
-
-resource "kubernetes_service" "example" {
-  metadata {
-    name = "terraform-example"
-  }
-  spec {
-    selector = {
-      app = kubernetes_pod.example.metadata.0.labels.app
-    }
-    session_affinity = "ClientIP"
-    port {
-      port        = 8080
-      target_port = 80
-    }
-
-    type = "LoadBalancer"
-  }
-}
-
-
-
-
 
 resource "kubernetes_deployment" "angular_app" {
   metadata {
     name = "angular-app"
+    namespace = kubernetes_namespace.prod.metadata.0.name
   }
   spec {
     selector {
@@ -281,7 +187,7 @@ resource "kubernetes_deployment" "angular_app" {
       spec {
         container {
           name  = "angular-app"
-          image = "mohamedaligatri/angularcloudit:v2.0.3"
+          image = "gatrimohamedali/front-devops:v1.0.1"
           env {
             name  = "API_URL"
             value = "http://spring-boot-service:8083"
@@ -293,4 +199,4 @@ resource "kubernetes_deployment" "angular_app" {
       }
     }
   }
-}*/
+}

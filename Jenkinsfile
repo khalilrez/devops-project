@@ -7,7 +7,7 @@ pipeline{
     environment {
         IMAGE_NAME = 'gatrimohamedali/devops-project'
     }
-    stages{
+    stages{/*
         stage("FS trivy scan"){
             steps{
               script{
@@ -107,7 +107,7 @@ pipeline{
                 echo 'terraform login'
               }
             }
-          }
+          }*/
           stage("terraform provisioning"){
             environment{
               TF_TOKEN_app_terraform_io= credentials('terraform_token')
@@ -126,7 +126,7 @@ pipeline{
                 }
               }
             }
-          }
+          }/*
           stage("commit version increment"){
             environment{
               GITHUB_ACCESS_KEY = credentials('github_access_key')
@@ -148,6 +148,6 @@ pipeline{
                 sh "docker image rm ${IMAGE_NAME}:${APP_VERSION}"
               }
             }
-          }
+          }*/
     }
 }
