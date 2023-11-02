@@ -55,7 +55,6 @@ public class StockServiceTest {
 
         Stock result = stockService.addStock(stock);
 
-        // Verify the result
         assertEquals("Stock1", result.getLibelleStock());
     }
 
@@ -73,7 +72,6 @@ public class StockServiceTest {
     }
     @Test
     public void testUpdateStock() {
-        // Arrange
         Stock stockToUpdate = new Stock("UpdatedStock", 150, 75);
 
         when(stockRepository.save(stockToUpdate)).thenReturn(stockToUpdate);
