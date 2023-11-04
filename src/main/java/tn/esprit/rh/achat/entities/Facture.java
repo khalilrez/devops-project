@@ -44,5 +44,11 @@ public class Facture implements Serializable {
     @JsonIgnore
     private Set<Reglement> reglements;
 
-	
+
+
+	@Override
+	public String toString() {
+		return "montantFacture " + this.montantFacture+
+				" : id " + this.idFacture ;
+	}
 }
