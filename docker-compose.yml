@@ -6,13 +6,13 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: achatdb
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
     ports:
       - "3306:3306"
 
   spring-app:
-    image: your-spring-boot-image
+    image: khalilrez/achat:17
     container_name: spring-app-container
     ports:
       - "8089:8089"
@@ -22,13 +22,12 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
     depends_on:
       - mysql
+    restart: on-failure
 
   angular-app:
-    build:
-      context: khalilrez/angular-devops:1.0.0
-      dockerfile: Dockerfile
+    image: front:1.0.1
     container_name: angular-app-container
     ports:
-      - "4200:4200"
+      - "15000:80"
     depends_on:
       - spring-app
