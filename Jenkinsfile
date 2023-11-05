@@ -15,13 +15,13 @@ pipeline{
               }
             }
         }
-        stage("SonarTest integration"){
+/*         stage("SonarTest integration"){
             steps{
                 withSonarQubeEnv(installationName: 'SonarQubeServer') {
                     sh "mvn compile sonar:sonar"
                 }
             }
-        }
+        } */
         stage("Maven Package"){
             steps{
               script{
@@ -51,7 +51,7 @@ pipeline{
 
                     }
                   }
-          stage("login & build docker"){
+/*           stage("login & build docker"){
             steps {
               script{
                 withCredentials([usernamePassword(credentialsId:'docker-auth', passwordVariable:'DOCKER_PASS', usernameVariable:'DOCKER_USER')]){
@@ -68,6 +68,6 @@ pipeline{
                 sh "docker image rm ${IMAGE_NAME}:latest"
               }
             }
-          }
+          } */
     }
 }
