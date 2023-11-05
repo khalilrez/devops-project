@@ -15,11 +15,9 @@ services:
     ports:
       - "8089:8089"
     environment:
-      DB_HOST: localhost
-      DB_PORT: 3306
-      DB_NAME: achatdb
-      DB_USERNAME: root
-      DB_PASSWORD: root
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/achatdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     depends_on:
       - mysql
     restart: on-failure
