@@ -36,7 +36,7 @@ pipeline{
                             protocol: 'http',
                             nexusUrl: 'localhost:8081',
                             groupId: 'tn.esprit.rh',
-                            version: "latest",
+                            version: "1.0",
                             repository: 'achat-jar',
                             credentialsId: 'nexus-auth',
                             artifacts: [
