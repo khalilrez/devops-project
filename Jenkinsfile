@@ -29,7 +29,7 @@ pipeline{
               }
             }
         }
-        stage('Push to Nexus') {
+        /* stage('Push to Nexus') {
                     steps {
                         nexusArtifactUploader(
                             nexusVersion: 'nexus3',
@@ -50,7 +50,7 @@ pipeline{
                           )
 
                     }
-                  }
+                  } */
 /*           stage("login & build docker"){
             steps {
               script{
@@ -69,5 +69,12 @@ pipeline{
               }
             }
           } */
+          stage("docker compose run"){
+            steps{
+              script{
+                sh "docker-compose -d up"
+              }
+            }
+          }
     }
 }
