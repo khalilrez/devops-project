@@ -7,6 +7,8 @@ services:
       MYSQL_DATABASE: achatdb
     ports:
       - "3306:3306"
+    networks:
+      - net
 
   achat:
     image: yassinekh/devops:latest
@@ -21,3 +23,8 @@ services:
     depends_on:
       - mysql
     restart: on-failure
+    networks:
+      - net
+networks:
+  net:
+    driver: bridge
