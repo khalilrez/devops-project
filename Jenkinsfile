@@ -11,7 +11,21 @@ pipeline{
         stage("Test stage"){
             steps{
               script{
-                echo "sh mvn test"
+                sh "mvn test"
+              }
+            }
+        }
+        stage("SonarTest integration"){
+            steps{
+                withSonarQubeEnv(installationName: 'SonarQubeServer') {
+                    sh "mvn compile sonar:sonar"
+                }
+            }
+        }
+        stage("Maven Package"){
+            steps{
+              script{
+                sh "mvn clean package"
               }
             }
         }
