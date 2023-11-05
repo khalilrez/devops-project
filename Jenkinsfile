@@ -35,7 +35,7 @@ pipeline{
                             nexusVersion: 'nexus3',
                             protocol: 'http',
                             nexusUrl: 'localhost:8081',
-                            groupId: 'tn.esprit.rh.achat',
+                            groupId: 'tn.esprit.rh',
                             version: "latest",
                             repository: 'achat-jar',
                             credentialsId: 'nexus-auth',
