@@ -1,0 +1,43 @@
+version: '3.3'
+services:
+  achat:
+    image: bouboutaftaf/achat:1.0
+    restart: always
+    environment:
+      - spring.datasource.url=jdbc:mysql://app_db:3306/achat?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+      - spring.datasource.username=boubou
+      - spring.datasource.password=boubou123
+    ports:
+      - "8089:8089"
+    depends_on:
+      - mysql_db
+    links:
+      - mysql_db:app_db
+  mysql_db:
+    image: "mysql:5.7.24"
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: achat
+      MYSQL_USER: boubou
+      MYSQL_PASSWORD: boubou123
+      MYSQL_ROOT_PASSWORD: root
+  prometheus:
+    image: prom/prometheus:v2.38.0
+    network_mode: host
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+  grafana:
+    image: grafana/grafana-oss:9.1.4
+    network_mode: host
+    container_name: grafana-container
+    user: '104'
+    depends_on:
+      - prometheus
+    volumes:
+      - ./grafana/:/var/lib/grafana
+  
