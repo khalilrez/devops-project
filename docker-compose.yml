@@ -18,8 +18,8 @@ services:
       DB_HOST: mysql
       DB_PORT: 3306
       DB_NAME: achatdb
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      DB_USERNAME: root
+      DB_PASSWORD: root
     depends_on:
       - mysql
     restart: on-failure
