@@ -23,6 +23,16 @@ services:
     restart: on-failure
     networks:
       - net
+
+  front:
+    image: yassinekh/front:latest
+    ports:
+      - "8085:80"
+    depends_on:
+      - achat
+    restart: on-failure
+    networks:
+      - net
 networks:
   net:
     driver: bridge
