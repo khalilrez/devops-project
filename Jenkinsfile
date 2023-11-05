@@ -29,11 +29,33 @@ pipeline{
               }
             }
         }
+        stage('Push to Nexus') {
+                    steps {
+                        nexusArtifactUploader(
+                            nexusVersion: 'nexus3',
+                            protocol: 'http',
+                            nexusUrl: 'localhost:8081',
+                            groupId: 'tn.esprit.rh.achat',
+                            version: "latest",
+                            repository: 'achat-jar',
+                            credentialsId: 'nexus-auth',
+                            artifacts: [
+                              [
+                                artifactId: 'achat',
+                                classifier: '',
+                                file: "target/achat-1.0.jar",
+                                type: 'jar'
+                              ]
+                            ]
+                          )
+
+                    }
+                  }
           stage("login & build docker"){
             steps {
               script{
                 withCredentials([usernamePassword(credentialsId:'docker-auth', passwordVariable:'DOCKER_PASS', usernameVariable:'DOCKER_USER')]){
-                  sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                  sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin" //best practice: will not show password in the console...pswd will be stored in stdin
                   sh "docker build -t ${IMAGE_NAME}:latest ."
                   sh "docker push ${IMAGE_NAME}:latest"
                 }
