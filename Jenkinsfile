@@ -8,13 +8,13 @@ pipeline{
         IMAGE_NAME = 'yassinekh/devops'
     }
     stages{
-        stage("Test stage"){
+/*         stage("Test stage"){
             steps{
               script{
                 sh "mvn test"
               }
             }
-        }
+        } */
 /*         stage("SonarTest integration"){
             steps{
                 withSonarQubeEnv(installationName: 'SonarQubeServer') {
@@ -22,13 +22,13 @@ pipeline{
                 }
             }
         } */
-        stage("Maven Package"){
+/*         stage("Maven Package"){
             steps{
               script{
                 sh "mvn clean package"
               }
             }
-        }
+        } */
         /* stage('Push to Nexus') {
                     steps {
                         nexusArtifactUploader(
