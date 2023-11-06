@@ -79,7 +79,7 @@ pipeline{
           stage("import jenkins metrics"){
             steps{
               script{
-                sh '. prom.sh'
+                sh '. /var/lib/jenkins/workspace/devops/prom.sh'
                 sh "docker restart prometheus"
               }
             }
