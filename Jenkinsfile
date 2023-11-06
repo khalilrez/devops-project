@@ -55,7 +55,7 @@ pipeline{
             steps {
               script{
                 withCredentials([usernamePassword(credentialsId:'docker-auth', passwordVariable:'DOCKER_PASS', usernameVariable:'DOCKER_USER')]){
-                  sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin" //best practice: will not show password in the console...pswd will be stored in stdin
+                  sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin" 
                   sh "docker build -t ${IMAGE_NAME}:latest ."
                   sh "docker push ${IMAGE_NAME}:latest"
                 }
