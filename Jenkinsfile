@@ -76,5 +76,18 @@ pipeline{
               }
             }
           }
+          stage("import jenkins metrics"){
+            steps{
+              script{
+                sh 'docker exec prometheus /bin/sh -c "tee -a /etc/prometheus/prometheus.yml <<EOF
+                    - job_name: jenkins
+                    metrics_path: /prometheus
+                    static_configs:
+                    - targets: ["172.17.0.1:8080"]
+                    EOF"'
+                sh "docker restart prometheus"
+              }
+            }
+          }
     }
 }
