@@ -8,28 +8,28 @@ pipeline{
         IMAGE_NAME = 'yassinekh/devops'
     }
     stages{
-/*         stage("Test stage"){
+         stage("Test stage"){
             steps{
               script{
                 sh "mvn test"
               }
             }
-        } */
-/*         stage("SonarTest integration"){
+        }
+        stage("SonarTest integration"){
             steps{
                 withSonarQubeEnv(installationName: 'SonarQubeServer') {
                     sh "mvn compile sonar:sonar"
                 }
             }
-        } */
-/*         stage("Maven Package"){
+        }
+        stage("Maven Package"){
             steps{
               script{
                 sh "mvn clean package"
               }
             }
-        } */
-        /* stage('Push to Nexus') {
+        }
+        stage('Push to Nexus') {
                     steps {
                         nexusArtifactUploader(
                             nexusVersion: 'nexus3',
@@ -51,7 +51,7 @@ pipeline{
 
                     }
                   } */
-/*           stage("login & build docker"){
+           stage("login & build docker"){
             steps {
               script{
                 withCredentials([usernamePassword(credentialsId:'docker-auth', passwordVariable:'DOCKER_PASS', usernameVariable:'DOCKER_USER')]){
@@ -62,13 +62,6 @@ pipeline{
               }
             }
           }
-          stage("cleaning up"){
-            steps{
-              script{
-                sh "docker image rm ${IMAGE_NAME}:latest"
-              }
-            }
-          } */
           stage("docker compose run"){
             steps{
               script{
@@ -84,5 +77,12 @@ pipeline{
               }
             }
           }
+          stage("cleaning up"){
+            steps{
+              script{
+                sh "docker image rm ${IMAGE_NAME}:latest"
+              }
+            }
+          } 
     }
 }
