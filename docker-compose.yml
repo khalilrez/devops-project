@@ -26,10 +26,12 @@ services:
   prometheus:
     image: prom/prometheus:v2.38.0
     network_mode: host
+    ports:
+      - "9090:9090"
     volumes:
       - ./prometheus/:/etc/prometheus/
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+    #command:
+    #  - '--config.file=/etc/prometheus/prometheus.yml'
     restart: always
   grafana:
     image: grafana/grafana-oss:9.1.4
