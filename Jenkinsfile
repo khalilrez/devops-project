@@ -34,7 +34,7 @@ pipeline{
                         nexusArtifactUploader(
                             nexusVersion: 'nexus3',
                             protocol: 'http',
-                            nexusUrl: 'localhost:8081',
+                            nexusUrl: '192.168.20.2:8081',
                             groupId: 'tn.esprit.rh',
                             version: "1.0",
                             repository: 'achat-jar',
@@ -50,8 +50,8 @@ pipeline{
                           )
 
                     }
-                  } */
-           stage("login & build docker"){
+                  } 
+        stage("login & build docker"){
             steps {
               script{
                 withCredentials([usernamePassword(credentialsId:'docker-auth', passwordVariable:'DOCKER_PASS', usernameVariable:'DOCKER_USER')]){
@@ -62,14 +62,14 @@ pipeline{
               }
             }
           }
-          stage("docker compose run"){
+        stage("docker compose run"){
             steps{
               script{
                 sh "docker-compose up -d"
               }
             }
           }
-          stage("import jenkins metrics"){
+        stage("import jenkins metrics"){
             steps{
               script{
                 sh ". /var/lib/jenkins/workspace/devops/prom.sh"
@@ -77,7 +77,7 @@ pipeline{
               }
             }
           }
-          stage("cleaning up"){
+        stage("cleaning up"){
             steps{
               script{
                 sh "docker image rm ${IMAGE_NAME}:latest"
