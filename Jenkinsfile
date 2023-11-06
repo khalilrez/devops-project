@@ -72,17 +72,10 @@ pipeline{
         stage("import jenkins metrics"){
             steps{
               script{
-                sh ". /var/lib/jenkins/workspace/devops/prom.sh"
-                sh "docker restart prometheus"
+                echo ". /var/lib/jenkins/workspace/devops/prom.sh"
+                echo "docker restart prometheus"
               }
             }
           }
-        stage("cleaning up"){
-            steps{
-              script{
-                sh "docker image rm ${IMAGE_NAME}:latest"
-              }
-            }
-          } 
     }
 }
