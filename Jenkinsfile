@@ -79,7 +79,7 @@ pipeline{
           stage("import jenkins metrics"){
             steps{
               script{
-                sh 'docker exec prometheus /bin/sh -c "cat > /etc/prometheus/prometheus.yml" <<EOF\n- job_name: jenkins\n  metrics_path: /prometheus\n  static_configs:\n  - targets: [\"172.17.0.1:8080\"]\nEOF'
+                sh '. prom.sh'
                 sh "docker restart prometheus"
               }
             }
