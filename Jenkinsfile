@@ -64,7 +64,7 @@ pipeline{
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '192.168.0.2:8081',
+                    nexusUrl: '192.168.0.4:8081',
                     groupId: 'com.esprit.examen',
                     version: "${APP_VERSION}",
                     repository: 'learning',
