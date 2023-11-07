@@ -16,7 +16,7 @@ import tn.esprit.rh.achat.repositories.FactureRepository;
 import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
-public class FactureServiceImpMock {
+ class FactureServiceImpMock {
     @Mock
     FactureRepository factureRepository;
 
@@ -35,20 +35,20 @@ public class FactureServiceImpMock {
     };
 
     @Test
-    public void testRetriveFacture(){
+     void testRetriveFacture(){
         Mockito.when(factureRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(facture));
         Facture facture1 = factureService.retrieveFacture(12345678L);
         Assertions.assertNotNull(facture1);
     }
 
     @Test
-    public void testRetrieveAllFacture(){
+     void testRetrieveAllFacture(){
         Mockito.when(factureRepository.findAll()).thenReturn(listFactures);
         List<Facture> listFactures = factureService.retrieveAllFactures();
         Assertions.assertEquals(1, listFactures.size());
     }
     @Test
-    public void testCancelFacture() {
+     void testCancelFacture() {
         // Prepare a Facture object and a factureId
         Facture facture = new Facture(5678L, 10, 140, new Date(), new Date(), true, detailsFacture, f, reglements);
         Long factureId = 1L;
@@ -64,7 +64,7 @@ public class FactureServiceImpMock {
     }
 
     @Test
-    public void testAddFacture() {
+     void testAddFacture() {
         // Prepare a Facture object to save
 
         // Define the behavior for the mocked repository when saving
