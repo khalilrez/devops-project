@@ -5,7 +5,7 @@ pipeline{
         maven "MAVEN"
     }
     environment {
-        IMAGE_NAME = 'yassinekh/devops'
+        IMAGE = 'yassinekh/devops'
     }
     stages{
          stage("Test stage"){
@@ -17,7 +17,7 @@ pipeline{
         }
         stage("SonarTest integration"){
             steps{
-                withSonarQubeEnv(installationName: 'SonarQubeServer') {
+                withSonarQubeEnv(installationName: 'sonar') {
                     sh "mvn compile sonar:sonar"
                 }
             }
@@ -30,34 +30,34 @@ pipeline{
             }
         }
         stage('Push to Nexus') {
-                    steps {
-                        nexusArtifactUploader(
-                            nexusVersion: 'nexus3',
-                            protocol: 'http',
-                            nexusUrl: '192.168.20.1:8081',
-                            groupId: 'tn.esprit.rh',
-                            version: "1.0",
-                            repository: 'achat-jar',
-                            credentialsId: 'nexus-auth',
-                            artifacts: [
-                              [
-                                artifactId: 'achat',
-                                classifier: '',
-                                file: "target/achat-1.0.jar",
-                                type: 'jar'
-                              ]
-                            ]
-                          )
+          steps {
+            nexusArtifactUploader(
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                nexusUrl: '192.168.20.1:8081',
+                groupId: 'tn.esprit.rh',
+                version: "1.0",
+                repository: 'achat-jar',
+                credentialsId: 'nexus-auth',
+                artifacts: [
+                  [
+                    artifactId: 'achat',
+                    classifier: '',
+                    file: "target/achat-1.0.jar",
+                    type: 'jar'
+                  ]
+                ]
+              )
 
-                    }
-                  } 
+        }
+      } 
         stage("login & build docker"){
             steps {
               script{
                 withCredentials([usernamePassword(credentialsId:'docker-auth', passwordVariable:'DOCKER_PASS', usernameVariable:'DOCKER_USER')]){
                   sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin" 
-                  sh "docker build -t ${IMAGE_NAME}:latest ."
-                  sh "docker push ${IMAGE_NAME}:latest"
+                  sh "docker build -t ${IMAGE}:latest ."
+                  sh "docker push ${IMAGE}:latest"
                 }
               }
             }
