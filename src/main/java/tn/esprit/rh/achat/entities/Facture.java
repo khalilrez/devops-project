@@ -49,6 +49,6 @@ public class Facture implements Serializable {
 	@Override
 	public String toString() {
 		return "montantFacture " + this.montantFacture+
-				" : id " + this.idFacture ;
+				" : idFacture " + this.idFacture ;
 	}
 }
