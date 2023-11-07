@@ -3,7 +3,7 @@
   hosts: all
   tasks:
     - name: Apply the mysql Kubernetes artifact
-      command: kubectl apply -f mysql-k8s.yml
+      command: minikube kubectl apply -f mysql-k8s.yml
 
     - name: Wait for the mysql artifact to be available
       shell: minikube kubectl wait --for=condition=available --timeout=300s -f mysql-k8s.yml
@@ -12,7 +12,6 @@
       changed_when: wait_result.rc == 0
 
 - name: Apply the second Kubernetes artifact
-  hosts: localhost
   tasks:
     - name: Apply the second Kubernetes artifact
       command: minikube kubectl apply -f spring-k8s.yml
