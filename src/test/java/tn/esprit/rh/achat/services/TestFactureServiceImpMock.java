@@ -16,7 +16,7 @@ import tn.esprit.rh.achat.repositories.FactureRepository;
 import java.util.*;
 
 @ExtendWith(MockitoExtension.class)
- class FactureServiceImpMock {
+ class TestFactureServiceImpMock {
     @Mock
     FactureRepository factureRepository;
 
