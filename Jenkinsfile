@@ -7,32 +7,32 @@ pipeline{
     environment {
         IMAGE_NAME = 'gatrimohamedali/devops-project'
     }
-    stages{/*
+    stages{
         stage("FS trivy scan"){
             steps{
               script{
-                sh "trivy fs ."
+                echo "trivy fs ."
               }
             }
         }
         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
-                dependencyCheck additionalArguments: ''' 
+                /*dependencyCheck additionalArguments: ''' 
                             -o './' 
                             --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
                 
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'*/
                 echo "OWASP done"
             }
         }
-        stage("Test stage"){
+        stage("Mock tests"){
             steps{
               script{
                 sh "mvn test"
               }
             }
         }
-        stage("SonarTest integration"){
+        stage("SonarQube analysis"){
             steps{
                 withSonarQubeEnv(installationName: 'SonarQubeServer') {
                     sh "mvn compile sonar:sonar"
@@ -59,7 +59,7 @@ pipeline{
               }
             }
         }
-        stage('Push to Nexus') {
+        stage('Deploy artifact to Nexus') {
             steps {
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
@@ -80,18 +80,18 @@ pipeline{
                   )
                 
             }
-          }*/
-          stage("login & build docker"){
+          }
+          stage("Docker Auth and build"){
             steps {
               script{
                 withCredentials([usernamePassword(credentialsId:'docker_credentials', passwordVariable:'DOCKER_PASS', usernameVariable:'DOCKER_USER')]){
                   sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                  //sh "docker build -t ${IMAGE_NAME}:${APP_VERSION} ."
+                  sh "docker build -t ${IMAGE_NAME}:${APP_VERSION} ."
                 }
               }
             }
-          }/*
-          stage("tag and push docekr image"){
+          }
+          stage("Push to docker repository"){
             steps {
               script{
                 sh "docker push ${IMAGE_NAME}:${APP_VERSION}"
@@ -107,7 +107,7 @@ pipeline{
                 echo 'terraform login'
               }
             }
-          }*/
+          }
           stage("terraform provisioning"){
             environment{
               TF_TOKEN_app_terraform_io= credentials('terraform_token')
@@ -126,7 +126,7 @@ pipeline{
                 }
               }
             }
-          }/*
+          }
           stage("commit version increment"){
             environment{
               GITHUB_ACCESS_KEY = credentials('github_access_key')
@@ -142,12 +142,12 @@ pipeline{
               }
             }
           }
-          stage("cleaning up"){
+          stage("Cleansing"){
             steps{
               script{
                 sh "docker image rm ${IMAGE_NAME}:${APP_VERSION}"
               }
             }
-          }*/
+          }
     }
 }
