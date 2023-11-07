@@ -2,16 +2,29 @@
 - name: Apply and wait for the mysql Kubernetes artifact
   hosts: all
   tasks:
+    - name: Copy a mysql file to remote host
+      copy:
+        src: mysql-k8s.yml
+        dest: mysql-k8s.yml
+        mode: 0777
+
+    - name: Copy a spring file to remote host
+      copy:
+        src: spring-k8s.yml
+        dest: spring-k8s.yml
+        mode: 0777  
+
     - name: Apply the mysql Kubernetes artifact
       command: minikube kubectl -- apply -f mysql-k8s.yml
 
     - name: Wait for the mysql artifact to be available
       shell: minikube kubectl -- wait --for=condition=available --timeout=300s -f mysql-k8s.yml
       register: wait_result
-      ignore_errors: yes
+      ignore_errors: true
       changed_when: wait_result.rc == 0
 
 - name: Apply the second Kubernetes artifact
+  hosts: all
   tasks:
     - name: Apply the second Kubernetes artifact
       command: minikube kubectl -- apply -f spring-k8s.yml
