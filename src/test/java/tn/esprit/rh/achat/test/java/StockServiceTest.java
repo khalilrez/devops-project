@@ -2,10 +2,12 @@ package tn.esprit.rh.achat.test.java;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import tn.esprit.rh.achat.entities.Stock;
 import tn.esprit.rh.achat.repositories.StockRepository;
@@ -19,8 +21,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class StockServiceTest {
 
     @InjectMocks
